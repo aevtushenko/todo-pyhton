@@ -1,0 +1,14 @@
+<h1>Social todo app for cpsc113</h1>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<h2>{{error}}</h2>
+
+<h1> Log in</h1>
+    <div class="col-sm-6">
+        <div class="form-group">
+        <form class="register" action="/user/login/" method="POST" class="signup-form" style="display: block;"> 
+        {% csrf_token %}
+          {{form}}
+          <input type="submit" value="Submit" />
+          </form>
+        </div>
+    </div>

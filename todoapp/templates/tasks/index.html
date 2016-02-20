@@ -1,0 +1,43 @@
+<h1>Social todo app for cpsc113</h1>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<h2>{{login}}</h2>
+{% if user.name %}
+<h2>Welcome, {{user.name}}</h2>
+    
+    {% if latest_question_list %}
+    <h4>Your Tasks</h4>
+        <ul>
+        {% for question in latest_question_list %}
+            <li>{{ question.title }}</li>
+            <li>Decription: {{ question.description }}</li>
+            <li>Collaborators: {{ question.collaborators }}</li>
+            <li>Published {{ question.pub_date}}</li>
+            {% if question.isComplete %}
+                <li>Complete: YES</li>
+            {% else %}
+                <li>Complete: NO</li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks are available.</p>
+    {% endif %}
+    <div>
+     <h4>Add a new task</h4>
+        <form action="/task/create/" method="POST" style="display: block;">
+            {% csrf_token %}
+            {{taskform}}
+            <input type="submit" value="Submit" />
+        </form> 
+    </div>
+    
+    
+{% else %}
+  <a href="/login/">Log in</a>
+  <a href="/register/">Sign up</a>
+    
+
+
+<br>
+<br>
+{% endif %}
