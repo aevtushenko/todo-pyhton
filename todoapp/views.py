@@ -119,13 +119,18 @@ def loginuser(request):
 def createtask(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
+        print 0
         # create a form instance and populate it with data from the request:
-        form = NameForm(request.POST)
+        form = TaskForm(request.POST)
+        useremail = str(request.POST.get('user',None))
+        print type(useremail)
         # check whether it's valid:
         if form.is_valid():
+            print 1
             
-                
+            user = u.objects.get(email = useremail)    
             task = Task()
+            task.owner = user
             task.title = form.cleaned_data['title']
             task.description = form.cleaned_data['description']
             task.collaborators = form.cleaned_data['collaborator1'] + ' ' + form.cleaned_data['collaborator2'] + ' ' + form.cleaned_data['collaborator3']
@@ -136,11 +141,12 @@ def createtask(request):
                
             latest_question_list = Task.objects.filter(owner = user.id).order_by('-pub_date')
             login = ''
-            context = {'latest_question_list': latest_question_list, 'login': login, 'taskform': taskform}
+            context = {'latest_question_list': latest_question_list, 'login': login, 'taskform': taskform, 'user': user}
             return render(request, 'tasks/index.html', context)
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = NameForm()
+        print 2
 
-    return render(request, 'tasks/index.html', {'form': form})
+    return render(request, 'tasks/index.html', {'form': form, 'user': user})

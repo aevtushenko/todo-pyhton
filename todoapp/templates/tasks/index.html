@@ -6,8 +6,9 @@
     
     {% if latest_question_list %}
     <h4>Your Tasks</h4>
-        <ul>
+        
         {% for question in latest_question_list %}
+        <ul>
             <li>{{ question.title }}</li>
             <li>Decription: {{ question.description }}</li>
             <li>Collaborators: {{ question.collaborators }}</li>
@@ -17,8 +18,11 @@
             {% else %}
                 <li>Complete: NO</li>
             {% endif %}
+            </ul>
+            
         {% endfor %}
-        </ul>
+        
+        
     {% else %}
         <p>No tasks are available.</p>
     {% endif %}
@@ -27,6 +31,7 @@
         <form action="/task/create/" method="POST" style="display: block;">
             {% csrf_token %}
             {{taskform}}
+            <input type="hidden" name="user" value={{user}}>
             <input type="submit" value="Submit" />
         </form> 
     </div>
