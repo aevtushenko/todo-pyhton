@@ -8,11 +8,11 @@ class NameForm(forms.Form):
     
     
 class TaskForm(forms.Form):
-    title = forms.CharField(label='Title', max_length=100, initial=' ')
-    description = forms.CharField(label='Description', max_length=200, initial=' ')
-    collaborator1 = forms.CharField(label='Collaborator', max_length=200, initial=' ')
-    collaborator2 = forms.CharField(label='Collaborator', max_length=200, initial=' ')
-    collaborator3 = forms.CharField(label='Collaborator', max_length=200, initial=' ')
+    title = forms.CharField(label='Title', max_length=100, initial='Title')
+    description = forms.CharField(label='Description', max_length=200, initial='Description')
+    collaborator1 = forms.CharField(label='Collaborator', max_length=200, initial='none')
+    collaborator2 = forms.CharField(label='Collaborator', max_length=200, initial='none')
+    collaborator3 = forms.CharField(label='Collaborator', max_length=200, initial='none')
 
 class LoginForm(forms.Form):
     email = forms.EmailField(label='Your e-mail', max_length=50)

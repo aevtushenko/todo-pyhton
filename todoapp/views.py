@@ -196,7 +196,8 @@ def completetask(request):
         task.save()
         taskform = TaskForm()
         latest_question_list = Task.objects.filter(owner = user.id).order_by('-pub_date')
-
+ #       collaborator_list = Task.objects.raw(select * from Tasks where collaborators like %str(user.email)%)
+  #      latest_question_list += collaborator_list
         for q in latest_question_list:
             print q.isComplete
         login = ''
