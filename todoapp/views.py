@@ -29,6 +29,15 @@ def login(request):
     context= {'form' : form}
     return render(request, 'tasks/login.html', context)
     
+def logout(request):
+    taskform = TaskForm()
+    user = u()
+    latest_question_list = Task.objects.filter(owner = user.id).order_by('-pub_date')
+    login = ''
+    context = {'latest_question_list': latest_question_list, 'login': login, 'user': user, 'taskform': taskform}
+    return render(request, 'tasks/index.html', context)
+    
+    
 def registeruser(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -71,6 +80,8 @@ def registeruser(request):
     latest_question_list = Task.objects.filter(owner = user.id).order_by('-pub_date')
     context = {'latest_question_list': latest_question_list, 'login': login, 'user': user, 'taskform': taskform}
     return render(request, 'tasks/index.html', context)
+    
+
     
     
 def loginuser(request):
