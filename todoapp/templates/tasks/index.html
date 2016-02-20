@@ -14,11 +14,29 @@
             <li>Collaborators: {{ question.collaborators }}</li>
             <li>Published {{ question.pub_date}}</li>
             {% if question.isComplete %}
-                <li>Complete: YES</li>
+            <li>Complete: YES</li>
             {% else %}
-                <li>Complete: NO</li>
+            <li>Complete: NO</li>
             {% endif %}
+            
+            
             </ul>
+            <form method="post" action="/task/delete/">
+                {% csrf_token %}
+                    <input type="submit" name="delete-task" class="delete-task" value="Delete">
+                    <input type="hidden" name="user" value={{user}}>
+                    <input type="hidden" name="task" value={{question}}>
+                  </form>
+                  <form method="post" action="/task/complete/">
+                      {% csrf_token %}
+                      {% if question.isComplete %}
+                    <input type="submit" name="toggle-task" class="toggle-task" value="Mark incomplete">
+                    {% else %}
+                    <input type="submit" name="toggle-task" class="toggle-task" value="Mark complete">
+                    {% endif %}
+                     <input type="hidden" name="user" value={{user}}>
+                     <input type="hidden" name="task" value={{question}}>
+                  </form>
             
         {% endfor %}
         

@@ -150,3 +150,61 @@ def createtask(request):
         print 2
 
     return render(request, 'tasks/index.html', {'form': form, 'user': user})
+    
+    
+def deletetask(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        print 0
+        # create a form instance and populate it with data from the request:
+        user1 = request.POST.get('user',None)
+        print user1
+        user = u.objects.get(email = str(user1))
+        
+        task1 = request.POST.get('task',None)
+        print task1
+        task = Task.objects.get(title = str(task1))
+        task.delete()
+        taskform = TaskForm()
+        latest_question_list = Task.objects.filter(owner = user.id).order_by('-pub_date')
+        for q in latest_question_list:
+            print q.isComplete
+        login = ''
+        context = {'latest_question_list': latest_question_list, 'login': login, 'taskform': taskform, 'user': user}
+        return render(request, 'tasks/index.html', context)
+        
+        
+  
+
+    return render(request, 'tasks/index.html', {'user': user})
+    
+def completetask(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        print 0
+        # create a form instance and populate it with data from the request:
+        user1 = request.POST.get('user',None)
+        print user1
+        user = u.objects.get(email = str(user1))
+        
+        task1 = request.POST.get('task',None)
+        print task1
+        task = Task.objects.get(title = str(task1))
+        print task.isComplete
+        task.isComplete = not(task.isComplete)
+        print task.isComplete
+        task.save()
+        taskform = TaskForm()
+        latest_question_list = Task.objects.filter(owner = user.id).order_by('-pub_date')
+        collaborator_list = Task.objects.filter(collaborators like %user.email%)
+        latest_question_list += collaborator_list
+        for q in latest_question_list:
+            print q.isComplete
+        login = ''
+        context = {'latest_question_list': latest_question_list, 'login': login, 'taskform': taskform, 'user': user}
+        return render(request, 'tasks/index.html', context)
+        
+        
+  
+
+    return render(request, 'tasks/index.html', {'user': user})
